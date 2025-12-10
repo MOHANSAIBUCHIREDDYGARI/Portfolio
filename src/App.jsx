@@ -633,9 +633,10 @@ export default function App() {
 
       <footer>
         <div className="footer-inner">
-          <p>&copy; 2025 Buchireddygari Mohan Sai. All rights reserved.</p>
+          <p>&copy; 2025 Buchireddygari Mohan Sai.</p>
         </div>
       </footer>
     </>
   );
+
 }
