@@ -260,7 +260,12 @@ export default function App() {
                 <span className="tag">HTML/CSS</span>
                 <span className="tag">JavaScript</span>
                 <span className="tag">React</span>
-                <span className="tag">Git</span>
+                <span className="tag">Git/Github</span>
+                <span className="tag">Webots</span>
+                <span className="tag">VS Code</span>
+                <span className="tag">SUMO</span>
+                <span className="tag">Keil uVision (STM32)</span>
+                <span className="tag">Wireshark</span>
                 <span className="tag">Streamlit</span>
               </div>
             </div>
