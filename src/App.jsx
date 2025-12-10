@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-// Ensure this import is here to apply the styles
+import React, { useEffect, useState } from "react";
 import "./index.css"; 
 
 export default function App() {
@@ -16,7 +15,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    // --- Mobile Menu Logic ---
     const menuToggle = document.getElementById("menuToggle");
     const navLinks = document.getElementById("navLinks");
 
@@ -45,38 +43,19 @@ export default function App() {
       });
     });
 
-    // --- Smooth Scroll Logic ---
-    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-      anchor.addEventListener("click", function (e) {
-        const targetId = this.getAttribute("href");
-        if (targetId && targetId.startsWith("#")) {
-          e.preventDefault();
-          const target = document.querySelector(targetId);
-          if (target) {
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        }
-      });
-    });
-
-    // --- Intersection Observer (Reveal animations) ---
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const delay = entry.target.getAttribute('data-delay') || 0;
-            setTimeout(() => {
-              entry.target.classList.add("visible");
-            }, delay);
+            entry.target.classList.add("visible");
             observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.1 }
     );
 
-    document.querySelectorAll(".fade-in").forEach((el, index) => {
-      el.setAttribute('data-delay', (index % 3) * 100); 
+    document.querySelectorAll(".fade-in").forEach((el) => {
       observer.observe(el);
     });
 
@@ -85,393 +64,573 @@ export default function App() {
     };
   }, []);
 
-  const openLink = (url) => {
+  const openCertificate = (certificateName) => {
+    window.open(`/${certificateName}`, '_blank');
+  };
+
+  const openProjectLink = (url) => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   return (
     <>
-      {/* Google Fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-      <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
 
-      {/* ================= NAVBAR ================= */}
-      <nav className="navbar">
-        <div className="container nav-container">
+      <nav>
+        <div className="container nav-inner">
           <a href="#home" className="logo">
-            B. Mohan Sai<span style={{color: "var(--accent)"}}>.</span>
+            <span className="logo-mark">MS</span>
+            <span>Mohan&nbsp;Sai</span>
           </a>
 
-          <div className="nav-right">
-            <ul className="nav-menu" id="navLinks">
-              <li><a href="#about">About</a></li>
-              <li><a href="#projects">Work</a></li>
-              <li><a href="#skills">Skills</a></li>
-              <li><a href="#certifications">Awards</a></li>
-            </ul>
+          <ul className="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#certifications">Certifications</a></li>
+            <li><a href="#education">Education</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
 
-            <div className="nav-controls">
-              <button className="theme-btn" onClick={toggleTheme} aria-label="Toggle Theme">
-                <i className={`fa-solid ${isLightMode ? "fa-moon" : "fa-sun"}`}></i>
-              </button>
-              
-              <button className="menu-btn" id="menuToggle">
-                <i className="fa-solid fa-bars"></i>
-              </button>
-            </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <button 
+              className="theme-toggle" 
+              onClick={toggleTheme}
+              aria-label="Toggle Theme"
+            >
+              <i className={`fa-solid ${isLightMode ? "fa-sun" : "fa-moon"}`}></i>
+            </button>
+            <button className="menu-toggle" id="menuToggle">
+              <i className="fa-solid fa-bars"></i>
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* ================= HERO ================= */}
-      <section id="home" className="hero-section">
-        <div className="container hero-container">
-          <div className="hero-content fade-in">
-            <div className="hero-badge">Available for Internships</div>
-            <h1>
-              Building intelligent systems<br />
-              and scalable software.
+      {/* HERO SECTION */}
+      <section id="home">
+        <div className="container hero">
+          <div className="hero-left fade-in">
+            <div className="hero-pill">
+              <span className="hero-pill-badge"><i className="fa-solid fa-code"></i></span>
+              <span>Software Engineering & Intelligent Systems</span>
+            </div>
+
+            <div className="hero-subtitle">Hello, I am</div>
+            <h1 className="hero-heading">
+              <span className="highlight">Buchireddygari</span><br/>
+              <span className="highlight">Mohan&nbsp;Sai</span>
             </h1>
-            <p className="hero-text">
-              Hi, I'm <strong>Mohan Sai</strong>. I'm a Computer Science student blending 
-              Full Stack Development with Embedded Systems & AI to create software that interacts with the real world.
+
+            <p className="hero-description">
+              I am a <strong>Computer Science & Engineering Student</strong> passionate about building scalable software and intelligent solutions. With a focus on <strong>Software Development</strong>, <strong>Machine Learning</strong>, and <strong>Systems Programming</strong>.
             </p>
-            <div className="hero-btns">
-              <a href="#projects" className="btn btn-primary">
-                View My Work
+
+            <div className="hero-actions">
+              <a href="#contact" className="btn-primary">
+                <span>Connect With Me</span>
+                <i className="fa-solid fa-arrow-right"></i>
               </a>
-              <a href="#contact" className="btn btn-outline">
-                Contact Me
+              <a href="MOHAN SAI BUCHIREDDYGARI.pdf" download="MOHAN_SAI_BUCHIREDDYGARI_Resume.pdf" className="btn-primary">
+                <span>Download Resume</span>
+                <i className="fa-solid fa-download"></i>
+              </a>
+              <a href="#projects" className="btn-ghost">
+                <span>View Projects</span>
+                <i className="fa-solid fa-diagram-project"></i>
               </a>
             </div>
-            
-            <div className="social-row">
-               <a href="https://github.com/MOHANSAIBUCHIREDDYGARI" target="_blank"><i className="fab fa-github"></i></a>
-               <a href="mailto:mohansai1810@gmail.com"><i className="fa-solid fa-envelope"></i></a>
-               <a href="#" target="_blank"><i className="fab fa-linkedin-in"></i></a> 
-            </div>
           </div>
-          
-          {/* Code Visual */}
-          <div className="hero-visual fade-in">
-            <div className="code-card">
-              <div className="code-header">
-                <span className="dot red"></span>
-                <span className="dot yellow"></span>
-                <span className="dot green"></span>
-              </div>
-              <div className="code-body">
-                <div className="code-line"><span className="k">const</span> <span className="v">engineer</span> = &#123;</div>
-                <div className="code-line indent">name: <span className="s">"Mohan Sai"</span>,</div>
-                <div className="code-line indent">focus: [<span className="s">"Web"</span>, <span className="s">"Robotics"</span>, <span className="s">"AI"</span>],</div>
-                <div className="code-line indent">status: <span className="s">"Building Solutions"</span></div>
-                <div className="code-line">&#125;;</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ================= ABOUT ================= */}
-      <section id="about" className="section">
-        <div className="container">
-          <div className="split-layout">
-            
-            {/* IMAGE COLUMN */}
-            <div className="about-image-container fade-in">
-               <img 
-                 src="/mohan-sai.jpg" 
-                 alt="Mohan Sai" 
-                 className="profile-img" 
-               />
-               <div className="experience-badge">
-                 <span className="year">3+</span>
-                 <span>Years<br/>Coding</span>
-               </div>
-            </div>
+          <div className="hero-right fade-in">
+            <div className="hero-card">
+              <div className="hero-tagline">Portfolio Snapshot</div>
+              <div className="hero-name">B. Mohan Sai</div>
+              <div className="hero-role">CSE Student</div>
 
-            {/* TEXT COLUMN */}
-            <div className="about-text fade-in">
-              <h2 className="section-title">About Me</h2>
-              <p>
-                I am a Computer Science & Engineering undergraduate at <strong>Amrita Vishwa Vidyapeetham</strong> (CGPA 8.03).
-              </p>
-              <p>
-                My journey isn't just about learning languages; it's about solving problems. From optimizing traffic flow using <strong>Genetic Algorithms</strong> to simulating autonomous multi-robot delivery systems in <strong>Webots</strong>, I love projects that have tangible complexity.
-              </p>
-              <p>
-                Currently, I'm refining my skills in <strong>React</strong> for front-end fluidity and <strong>Python/C</strong> for backend logic. I'm looking for opportunities where I can contribute to meaningful engineering challenges.
-              </p>
-              
-              <div className="about-stats-row">
-                 <div className="mini-stat">
-                    <strong>8.03</strong> <span>CGPA</span>
-                 </div>
-                 <div className="mini-stat">
-                    <strong>6+</strong> <span>Projects</span>
-                 </div>
+              <div className="hero-chip-row">
+                <span className="chip"><i className="fa-solid fa-laptop-code"></i> Software</span>
+                <span className="chip"><i className="fa-brands fa-python"></i> Python</span>
+                <span className="chip"><i className="fa-solid fa-brain"></i> AI/ML</span>
+              </div>
+
+              <div className="hero-mini-grid">
+                <div className="mini-card">
+                  <strong>Software Engineering</strong>
+                  <span>Full Stack, Clean Code, System Design.</span>
+                </div>
+                <div className="mini-card">
+                  <strong>Machine Learning</strong>
+                  <span>Predictive Modeling, CI, Data Science.</span>
+                </div>
+                <div className="mini-card">
+                  <strong>Embedded IoT</strong>
+                  <span>STM32, Real-time Systems, Keil.</span>
+                </div>
+                <div className="mini-card">
+                  <strong>Functional Logic</strong>
+                  <span>Haskell, Algorithmic Thinking.</span>
+                </div>
               </div>
             </div>
-            
           </div>
         </div>
       </section>
 
-      {/* ================= SKILLS ================= */}
-      <section id="skills" className="section bg-alt">
-        <div className="container">
-          <h2 className="section-title fade-in">Technical Arsenal</h2>
-          <div className="skills-grid">
-            
-            <div className="skill-category fade-in">
-              <h3><i className="fa-solid fa-code"></i> Languages</h3>
-              <div className="skill-list">
-                <span>Python</span>
-                <span>Java</span>
-                <span>C / C++</span>
-                <span>JavaScript</span>
-                <span>Dart</span>
-                <span>SQL</span>
-              </div>
-            </div>
-
-            <div className="skill-category fade-in">
-              <h3><i className="fa-solid fa-layer-group"></i> Frameworks & Web</h3>
-              <div className="skill-list">
-                <span>React.js</span>
-                <span>Node.js</span>
-                <span>Flask</span>
-                <span>Streamlit</span>
-                <span>HTML5 / CSS3</span>
-              </div>
-            </div>
-
-            <div className="skill-category fade-in">
-              <h3><i className="fa-solid fa-microchip"></i> Tools & Domains</h3>
-              <div className="skill-list">
-                <span>Git / GitHub</span>
-                <span>Webots (Sim)</span>
-                <span>Keil uVision</span>
-                <span>Machine Learning</span>
-                <span>IoT / Embedded</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ================= PROJECTS ================= */}
-      <section id="projects" className="section">
+      {/* ABOUT SECTION */}
+      <section id="about">
         <div className="container">
           <div className="section-header fade-in">
-             <h2 className="section-title">Featured Projects</h2>
-             <a href="https://github.com/MOHANSAIBUCHIREDDYGARI" target="_blank" className="view-all">View Github <i className="fa-solid fa-arrow-right"></i></a>
+            <h2>About Me</h2>
+            <div className="line"></div>
+          </div>
+
+          <div className="about-grid fade-in">
+            <div className="about-image-wrapper">
+              <img src="/mohan-sai.jpg" alt="Buchireddygari Mohan Sai" />
+            </div>
+            <div className="about-content">
+              <h3>Building the Future Through Code</h3>
+              <p>
+                I am a Computer Science & Engineering student at Amrita Vishwa Vidyapeetham, currently maintaining a CGPA of 8.03. My path in technology is guided by an interest in how software interacts with physical systems—from developing algorithms that improve traffic patterns, to creating simulations for autonomous robots, to engineering complete web applications.
+              </p>
+              <p>
+                More than writing code, I focus on designing solutions. I navigate across technical layers, whether working with embedded C on hardware platforms, structuring intuitive front-end experiences, or implementing machine learning approaches.
+              </p>
+              <p>
+                I aim to apply my background in software development, embedded systems, and artificial intelligence toward creating thoughtful, scalable systems that address concrete needs. I value ongoing growth and look forward to engaging with new technical challenges.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SKILLS SECTION */}
+      <section id="skills">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Technical Skillset</h2>
+            <div className="line"></div>
+            <p className="section-subtitle">
+              A diverse technical background ranging from <strong>system-level programming</strong> to <strong>intelligent algorithms</strong>.
+            </p>
+          </div>
+
+          <div className="skills-grid">
+            <div className="skill-card fade-in">
+              <div className="skill-title">
+                <div className="skill-title-icon"><i className="fa-solid fa-terminal"></i></div>
+                <span>Programming</span>
+              </div>
+              <div className="tag-list">
+                <span className="tag">Python</span>
+                <span className="tag">Java</span>
+                <span className="tag">C</span>
+                <span className="tag">Dart</span>
+                <span className="tag">Haskell</span>
+              </div>
+            </div>
+            <div className="skill-card fade-in">
+              <div className="skill-title">
+                <div className="skill-title-icon"><i className="fa-solid fa-brain"></i></div>
+                <span>AI & Data</span>
+              </div>
+              <div className="tag-list">
+                <span className="tag">Machine Learning</span>
+                <span className="tag">CI</span>
+                <span className="tag">Data Science</span>
+                <span className="tag">Predictive Analytics</span>
+              </div>
+            </div>
+            <div className="skill-card fade-in">
+              <div className="skill-title">
+                <div className="skill-title-icon"><i className="fa-solid fa-code"></i></div>
+                <span>Web & Tools</span>
+              </div>
+              <div className="tag-list">
+                <span className="tag">HTML/CSS</span>
+                <span className="tag">JavaScript</span>
+                <span className="tag">React</span>
+                <span className="tag">Git</span>
+                <span className="tag">Streamlit</span>
+              </div>
+            </div>
+            <div className="skill-card fade-in">
+              <div className="skill-title">
+                <div className="skill-title-icon"><i className="fa-solid fa-microchip"></i></div>
+                <span>Core CS</span>
+              </div>
+              <div className="tag-list">
+                <span className="tag">Data Structures</span>
+                <span className="tag">Algorithms</span>
+                <span className="tag">OOPS</span>
+                <span className="tag">Networks</span>
+                <span className="tag">DBMS</span>
+                <span className="tag">Embedded Systems</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PROJECTS SECTION */}
+      <section id="projects">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Featured Projects</h2>
+            <div className="line"></div>
+            <p className="section-subtitle">
+              A collection of 7 projects showcasing <strong>Software Engineering</strong>, <strong>Machine Learning</strong>, and <strong>Embedded Systems</strong> capabilities.
+            </p>
           </div>
 
           <div className="projects-grid">
             {/* Project 1 */}
-            <div className="project-card fade-in">
-              <div className="card-top">
-                <div className="folder-icon"><i className="fa-regular fa-folder"></i></div>
-                <div className="card-links">
-                  <a href="#" title="Repo Private"><i className="fa-solid fa-lock"></i></a>
-                </div>
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">Full Stack · Fintech</div>
+                <h3 className="project-title">ML Stock Market Analysis</h3>
+                <p className="project-desc">
+                  A data-driven web app aggregating financial data via APIs. Uses <strong>ML models</strong> to provide fundamental analysis. Features a React frontend for visualization and a Python/Flask backend.
+                </p>
               </div>
-              <h3>ML Stock Market Analysis</h3>
-              <p>
-                A financial analysis tool using React and Flask. Aggregates API data and uses ML models to provide fundamental stock insights and visualizations.
-              </p>
-              <div className="tech-stack">
+              <div className="project-tech">
                 <span>Python</span>
-                <span>React</span>
                 <span>Flask</span>
-                <span>ML</span>
+                <span>React</span>
+                <span>MySQL</span>
               </div>
-            </div>
+              <div className="project-footer">
+                <span>Data-driven insights.</span>
+                <span><i className="fa-solid fa-lock"></i> Private Project</span>
+              </div>
+            </article>
 
-            {/* Project 2 */}
-            <div className="project-card fade-in">
-              <div className="card-top">
-                <div className="folder-icon"><i className="fa-regular fa-folder"></i></div>
-                <div className="card-links">
-                  <a href="https://github.com/23CSE362-edge-computing-2025-26-odd/capstone-project-12_powerrangers.git" target="_blank"><i className="fa-brands fa-github"></i></a>
-                </div>
+            {/* Project 2: DSA Food Ordering (UPDATED) */}
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">Algorithms · Python</div>
+                <h3 className="project-title">DSA Food Ordering System</h3>
+                <p className="project-desc">
+                  A comprehensive backend logic system. Implements <strong>Priority Queues</strong> for orders, <strong>BST</strong> for menus, <strong>Stacks</strong> for undo/redo, and <strong>Dijkstra's Algorithm</strong> for delivery routing.
+                </p>
               </div>
-              <h3>Edge-Based V2X Protocol</h3>
-              <p>
-                Smart city traffic optimization. Implemented pathfinding (Ant Colony/BFS) and Genetic Algorithms in SUMO to reroute emergency vehicles dynamically.
-              </p>
-              <div className="tech-stack">
-                <span>SUMO</span>
+              <div className="project-tech">
                 <span>Python</span>
-                <span>Algorithms</span>
+                <span>Data Structures</span>
+                <span>Graphs</span>
               </div>
-            </div>
+              <div className="project-footer">
+                <span>Optimized Logic.</span>
+                {/* UPDATED LINK AND TEXT */}
+                <span 
+                  className="project-link" 
+                  onClick={() => openProjectLink("https://github.com/MOHANSAIBUCHIREDDYGARI/Smart-Serve")}
+                >
+                  <i className="fa-solid fa-code"></i> View Project →
+                </span>
+              </div>
+            </article>
 
             {/* Project 3 */}
-            <div className="project-card fade-in">
-               <div className="card-top">
-                <div className="folder-icon"><i className="fa-regular fa-folder"></i></div>
-                <div className="card-links">
-                  <a href="https://github.com/Sandeep-Merugumala/ShopsBuzz.git" target="_blank"><i className="fa-brands fa-github"></i></a>
-                </div>
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">Optimization · Algorithms</div>
+                <h3 className="project-title">Edge-Based V2X Protocol</h3>
+                <p className="project-desc">
+                  Optimizes emergency traffic response using custom <strong>pathfinding algorithms</strong> and <strong>Fuzzy Logic/Genetic Algorithms</strong> to reroute traffic in SUMO simulations.
+                </p>
               </div>
-              <h3>ShopsBuzz E-Commerce</h3>
-              <p>
-                Full-stack shopping platform. Architected the MySQL database and built a responsive frontend/backend to handle user sessions and payments.
-              </p>
-              <div className="tech-stack">
-                <span>MySQL</span>
-                <span>PHP/JS</span>
-                <span>Web Dev</span>
+              <div className="project-tech">
+                <span>Python</span>
+                <span>SUMO</span>
+                <span>Genetic Algos</span>
+                <span>Optimization</span>
               </div>
-            </div>
+              <div className="project-footer">
+                <span>Smart city logic.</span>
+                <span className="project-link" onClick={() => openProjectLink("https://github.com/23CSE362-edge-computing-2025-26-odd/capstone-project-12_powerrangers.git")}>
+                  <i className="fa-solid fa-road"></i> View Project →
+                </span>
+              </div>
+            </article>
 
             {/* Project 4 */}
-            <div className="project-card fade-in">
-               <div className="card-top">
-                <div className="folder-icon"><i className="fa-regular fa-folder"></i></div>
-                <div className="card-links">
-                  <a href="https://github.com/MOHANSAIBUCHIREDDYGARI/Automated-Street-Light-Timer.git" target="_blank"><i className="fa-brands fa-github"></i></a>
-                </div>
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">E-Commerce · Full Stack</div>
+                <h3 className="project-title">ShopsBuzz</h3>
+                <p className="project-desc">
+                  A comprehensive shopping platform. Architected the relational database in <strong>MySQL</strong> and built the frontend/backend to handle sessions, products, and transactions.
+                </p>
               </div>
-              <h3>STM32 Smart Streetlight</h3>
-              <p>
-                Embedded C system using STM32 & RTC. Features ultrasonic sensing for brightness control and power-recovery protocols for energy efficiency.
-              </p>
-              <div className="tech-stack">
-                <span>Embedded C</span>
-                <span>Keil</span>
-                <span>Hardware</span>
+              <div className="project-tech">
+                <span>JavaScript</span>
+                <span>MySQL</span>
+                <span>HTML/CSS</span>
+                <span>Web Dev</span>
               </div>
-            </div>
-             
-             {/* Project 5 */}
-            <div className="project-card fade-in">
-               <div className="card-top">
-                <div className="folder-icon"><i className="fa-regular fa-folder"></i></div>
-                <div className="card-links">
-                  <a href="https://github.com/Amrita-csvelayutham/project-problem-identification-and-formulation-MOHANSAIBUCHIREDDYGARI.git" target="_blank"><i className="fa-brands fa-github"></i></a>
-                </div>
+              <div className="project-footer">
+                <span>Scalable Architecture.</span>
+                <span className="project-link" onClick={() => openProjectLink("https://github.com/Sandeep-Merugumala/ShopsBuzz.git")}>
+                  <i className="fa-solid fa-cart-shopping"></i> View Project →
+                </span>
               </div>
-              <h3>Autonomous Delivery Bots</h3>
-              <p>
-                Multi-robot system in Webots. Implemented supervisor control and reactive navigation (GPS/IR) to coordinate deliveries without collisions.
-              </p>
-              <div className="tech-stack">
-                <span>Python</span>
-                <span>Webots</span>
-                <span>Robotics</span>
+            </article>
+
+            {/* Project 5 */}
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">Data Science · ML</div>
+                <h3 className="project-title">Customer Churn Prediction</h3>
+                <p className="project-desc">
+                  End-to-end ML pipeline identifying at-risk customers. From EDA to training (Logistic Regression/Random Forest) and deployment via a <strong>Streamlit</strong> dashboard for business insights.
+                </p>
               </div>
-            </div>
+              <div className="project-tech">
+                <span>Python & Seaborn</span>
+                <span>Streamlit</span>
+                <span>Scikit-Learn</span>
+                <span>ML</span>
+              </div>
+              <div className="project-footer">
+                <span>Predictive analytics.</span>
+                <span className="project-link" onClick={() => openProjectLink("https://github.com/MOHANSAIBUCHIREDDYGARI/Customer-Churn.git")}>
+                  <i className="fa-solid fa-chart-line"></i> View Project →
+                </span>
+              </div>
+            </article>
 
             {/* Project 6 */}
-            <div className="project-card fade-in">
-               <div className="card-top">
-                <div className="folder-icon"><i className="fa-regular fa-folder"></i></div>
-                <div className="card-links">
-                  <a href="https://github.com/MOHANSAIBUCHIREDDYGARI/Customer-Churn.git" target="_blank"><i className="fa-brands fa-github"></i></a>
-                </div>
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">Embedded · IoT</div>
+                <h3 className="project-title">STM32 Smart Streetlight</h3>
+                <p className="project-desc">
+                  Automated controller using <strong>STM32</strong> and RTC. Features ultrasonic sensing for brightness adjustment, multiple modes, and power-recovery protocols.
+                </p>
               </div>
-              <h3>Customer Churn Prediction</h3>
-              <p>
-                End-to-end ML pipeline. From EDA to training Logistic Regression models, deployed via a Streamlit dashboard for business insights.
-              </p>
-              <div className="tech-stack">
-                <span>Scikit-Learn</span>
-                <span>Streamlit</span>
-                <span>Data Science</span>
+              <div className="project-tech">
+                <span>C</span>
+                <span>Keil uVision</span>
+                <span>STM32</span>
+                <span>Sensors</span>
+              </div>
+              <div className="project-footer">
+                <span>Real-time control.</span>
+                <span className="project-link" onClick={() => openProjectLink("https://github.com/MOHANSAIBUCHIREDDYGARI/Automated-Street-Light-Timer.git")}>
+                  <i className="fa-solid fa-microchip"></i> View Project →
+                </span>
+              </div>
+            </article>
+
+            {/* Project 7: Restored */}
+            <article className="project-card fade-in">
+              <div className="project-content">
+                <div className="project-badge">Robotics · Simulation</div>
+                <h3 className="project-title">Autonomous Delivery System</h3>
+                <p className="project-desc">
+                  A multi-robot system in <strong>Webots</strong> where robots coordinate deliveries using supervisor control and <strong>reactive navigation</strong> (GPS/Compass/IR) for collision avoidance.
+                </p>
+              </div>
+              <div className="project-tech">
+                <span>Python</span>
+                <span>Webots</span>
+                <span>Reactive Navigation</span>
+                <span>Multi-Agent</span>
+              </div>
+              <div className="project-footer">
+                <span>Dynamic automation.</span>
+                <span className="project-link" onClick={() => openProjectLink("https://github.com/Amrita-csvelayutham/project-problem-identification-and-formulation-MOHANSAIBUCHIREDDYGARI.git")}>
+                  <i className="fa-solid fa-robot"></i> View Project →
+                </span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      {/* EXPERIENCE SECTION (NEW) */}
+      <section id="experience">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Work Experience</h2>
+            <div className="line"></div>
+          </div>
+
+          <div className="experience-timeline">
+            <div className="exp-item fade-in">
+              <div className="exp-dot"></div>
+              <div className="exp-card">
+                <div className="exp-header">
+                  <div>
+                    <h3 className="exp-role">Software Development Intern</h3>
+                    <div className="exp-company">BlueStock (Remote)</div>
+                  </div>
+                  <div className="exp-date">Oct 2025 – Nov 2025</div>
+                </div>
+                <ul className="exp-list">
+                  <li>Engineered an automated data pipeline to fetch and process financial statements (Balance Sheet, P&L, Cash Flow) via REST APIs.</li>
+                  <li>Integrated Machine Learning algorithms to generate real-time financial insights, optimizing data persistence using a MySQL database.</li>
+                  <li>Developed a dual-interface display system (Web & Terminal) to visualize analytical results for immediate stakeholder review.</li>
+                </ul>
+                <div className="exp-tech">
+                  <span>Python</span>
+                  <span>Flask</span>
+                  <span>React</span>
+                  <span>MySQL</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ================= CERTIFICATIONS & EDUCATION ================= */}
-      <section id="certifications" className="section bg-alt">
+      {/* CERTIFICATIONS */}
+      <section id="certifications">
         <div className="container">
-          <h2 className="section-title fade-in">Certifications & Education</h2>
-          
-          <div className="cert-layout">
-             <div className="cert-column fade-in">
-                <h3 className="column-title">Certifications</h3>
-                <ul className="cert-list">
-                   <li onClick={() => openLink("BFSD132589.pdf")}>
-                      <span className="cert-name">Software Development Intern</span>
-                      <span className="cert-issuer">Industry Exp</span>
-                      <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                   </li>
-                   <li onClick={() => openLink("python udemy certificate.pdf")}>
-                      <span className="cert-name">Complete Python Developer</span>
-                      <span className="cert-issuer">Udemy</span>
-                      <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                   </li>
-                   <li onClick={() => openLink("Data Science for Engineers.pdf")}>
-                      <span className="cert-name">Data Science for Engineers</span>
-                      <span className="cert-issuer">NPTEL (IIT Madras)</span>
-                      <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                   </li>
-                   <li onClick={() => openLink("Adobe_Hackathon.pdf")}>
-                      <span className="cert-name">Adobe Hackathon Participant</span>
-                      <span className="cert-issuer">Adobe</span>
-                      <i className="fa-solid fa-arrow-up-right-from-square"></i>
-                   </li>
-                </ul>
-             </div>
+          <div className="section-header fade-in">
+            <h2>Certifications & Achievements</h2>
+            <div className="line"></div>
+          </div>
 
-             <div className="cert-column fade-in">
-                <h3 className="column-title">Education</h3>
-                <div className="edu-item">
-                   <div className="edu-head">
-                      <strong>B.Tech in Computer Science</strong>
-                      <span>2023 - Present</span>
-                   </div>
-                   <div className="edu-school">Amrita Vishwa Vidyapeetham</div>
-                   <div className="edu-score">CGPA: 8.03</div>
-                </div>
-                <div className="edu-item">
-                   <div className="edu-head">
-                      <strong>Intermediate (MPC)</strong>
-                      <span>2021 - 2023</span>
-                   </div>
-                   <div className="edu-school">Sri Chaitanya Jr. College</div>
-                   <div className="edu-score">93.4%</div>
-                </div>
-             </div>
+          <div className="cert-grid">
+            <div className="cert-card fade-in">
+              <div className="cert-icon"><i className="fa-solid fa-briefcase"></i></div>
+              <div className="cert-details">
+                <h4>Software Development Intern</h4>
+                <p>Practical industry experience in development cycles.</p>
+                <span className="cert-link" onClick={() => openCertificate("BFSD132589.pdf")} style={{cursor: "pointer", color: "#3b82f6", fontWeight: 600}}>
+                  <i className="fa-solid fa-eye"></i> View Certificate
+                </span>
+              </div>
+            </div>
+            
+            <div className="cert-card fade-in">
+              <div className="cert-icon"><i className="fa-brands fa-python"></i></div>
+              <div className="cert-details">
+                <h4>Udemy Complete Python Developer</h4>
+                <p>Comprehensive training in Python programming.</p>
+                <span className="cert-link" onClick={() => openCertificate("python udemy certificate.pdf")} style={{cursor: "pointer", color: "#3b82f6", fontWeight: 600}}>
+                  <i className="fa-solid fa-eye"></i> View Certificate
+                </span>
+              </div>
+            </div>
+
+            <div className="cert-card fade-in">
+              <div className="cert-icon"><i className="fa-solid fa-trophy"></i></div>
+              <div className="cert-details">
+                <h4>Adobe Hackathon Participation</h4>
+                <p>Competitive problem solving and innovation.</p>
+                <span className="cert-link" onClick={() => openCertificate("Adobe_Hackathon.pdf")} style={{cursor: "pointer", color: "#3b82f6", fontWeight: 600}}>
+                  <i className="fa-solid fa-eye"></i> View Certificate
+                </span>
+              </div>
+            </div>
+
+            <div className="cert-card fade-in">
+              <div className="cert-icon"><i className="fa-solid fa-certificate"></i></div>
+              <div className="cert-details">
+                <h4>Data Science for Engineers - NPTEL</h4>
+                <p>IIT Madras Certification (Top 2% Elite).</p>
+                <span className="cert-link" onClick={() => openCertificate("Data Science for Engineers.pdf")} style={{cursor: "pointer", color: "#3b82f6", fontWeight: 600}}>
+                  <i className="fa-solid fa-eye"></i> View Certificate
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ================= CONTACT ================= */}
-      <section id="contact" className="section contact-section">
-        <div className="container center-text fade-in">
-          <h2>Let's work together.</h2>
-          <p className="contact-sub">
-            I am currently seeking internship opportunities. <br/>
-            Whether you have a question or just want to say hi, my inbox is open.
-          </p>
-          
-          <a href="mailto:mohansai1810@gmail.com" className="btn btn-primary big-btn">
-            Say Hello
-          </a>
-
-          <div className="footer-links">
-             <a href="tel:+917093213810">+91 7093213810</a>
-             <span>•</span>
-             <a href="MOHAN SAI BUCHIREDDYGARI.pdf" download>Download Resume</a>
+      {/* EDUCATION */}
+      <section id="education">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Education</h2>
+            <div className="line"></div>
           </div>
-          
-          <footer className="footer-copyright">
-            <p>&copy; 2025 Buchireddygari Mohan Sai. Built with React.</p>
-          </footer>
+          <div className="education-timeline">
+            <div className="edu-item fade-in">
+              <div className="edu-dot"></div>
+              <div className="edu-card">
+                <div className="edu-title">B.Tech in Computer Science & Engineering</div>
+                <div className="edu-school">Amrita Vishwa Vidyapeetham</div>
+                <div className="edu-meta">
+                  <span>2023 - Present</span>
+                  <span className="edu-grade">CGPA: 8.03</span>
+                </div>
+              </div>
+            </div>
+            
+             <div className="edu-item fade-in">
+              <div className="edu-dot"></div>
+              <div className="edu-card">
+                <div className="edu-title">Intermediate Education</div>
+                <div className="edu-school">Sri Chaitanya Jr. College</div>
+                <div className="edu-meta">
+                  <span>2021 - 2023</span>
+                  <span className="edu-grade">93.4%</span>
+                </div>
+              </div>
+            </div>
+
+             <div className="edu-item fade-in">
+              <div className="edu-dot"></div>
+              <div className="edu-card">
+                <div className="edu-title">Secondary School</div>
+                <div className="edu-school">Dr. KKR Gowtham School</div>
+                <div className="edu-meta">
+                  <span>2020 - 2021</span>
+                  <span className="edu-grade">100%</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+      {/* CONTACT */}
+      <section id="contact">
+        <div className="container">
+          <div className="section-header fade-in">
+            <h2>Get In Touch</h2>
+            <div className="line"></div>
+          </div>
+          <div className="contact-card fade-in">
+            <p className="contact-lead">I am actively seeking internships and opportunities.</p>
+            <div className="contact-info-list">
+              <a href="mailto:mohansai1810@gmail.com" className="contact-item">
+                <i className="fa-solid fa-envelope"></i>
+                <span>mohansai1810@gmail.com</span>
+              </a>
+              <a href="tel:+917093213810" className="contact-item">
+                <i className="fa-solid fa-phone"></i>
+                <span>+91 7093213810</span>
+              </a>
+            </div>
+            <div className="social-links">
+              <a href="https://github.com/MOHANSAIBUCHIREDDYGARI"><i className="fab fa-github"></i></a>
+              <a href="https://www.instagram.com/mohansai1810/"><i className="fab fa-instagram"></i></a>
+              <a href="https://www.facebook.com/"><i className="fab fa-facebook"></i></a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div className="footer-inner">
+          <p>&copy; 2025 Buchireddygari Mohan Sai. All rights reserved.</p>
+        </div>
+      </footer>
     </>
   );
 }
